@@ -14,8 +14,7 @@ export class SessionService implements AbstractSessionService {
     const rawToken = generateRefreshToken();
     const hashedToken = hashToken(rawToken);
 
-    const oneWeekMillis = CONSTANTS.ONE_WEEK_MS;
-    const expiresAt = new Date(Date.now() + oneWeekMillis);
+    const expiresAt = new Date(Date.now() + CONSTANTS.ONE_WEEK_MS);
     await this.sessionRepository.create(userId, hashedToken, expiresAt);
 
     return rawToken;
