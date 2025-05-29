@@ -34,4 +34,8 @@ export class UserService implements AbstractUserService {
     await this.userRepository.updateApiKey(userId, newApiKey);
     return newApiKey;
   }
+  
+  async existsByApiKey (apiKey: string): Promise<boolean> {
+    return this.userRepository.existsByApiKey(apiKey);
+  }
 }
