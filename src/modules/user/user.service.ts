@@ -38,4 +38,11 @@ export class UserService implements AbstractUserService {
   async existsByApiKey (apiKey: string): Promise<boolean> {
     return this.userRepository.existsByApiKey(apiKey);
   }
+  
+  async findByApiKey (apiKey: string): Promise<User> {
+    const user = await this.userRepository.findByApiKey(apiKey);
+    if (!user) throw new NotFoundException(`User with API key ${apiKey} not found`);
+    
+    return user;
+  }
 }
