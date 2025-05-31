@@ -19,6 +19,7 @@ model User {
   password  String
   apiKey    String    @unique @map("api_key")
   sessions  Session[]
+  timeLogs  TimeLog[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
@@ -36,4 +37,23 @@ model Session {
   @@map("sessions")
   @@index([userId])
   @@index([expiresAt])
+}
+
+model TimeLog {
+  id                  String   @id @default(uuid())
+  userId              String   @map("user_id")
+  startTime           DateTime @map("start_time")
+  endTime             DateTime @map("end_time")
+  duration            Int
+  fileName            String   @map("file_name")
+  codeEditor          String   @map("code_editor")
+  osName              String   @map("os_name")
+  projectName         String   @map("project_name")
+  programmingLanguage String   @map("programming_language")
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt           DateTime @default(now())
+
+  @@map("time_logs")
+  @@index([userId])
+  @@index([startTime])
 }

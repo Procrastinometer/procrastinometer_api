@@ -6,4 +6,5 @@ export abstract class AbstractUserService {
   abstract create(email: string, password: string, apiKey: string): Promise<User>;
   abstract refreshApiKey(userId: string): Promise<string>;
   abstract existsByApiKey(apiKey: string): Promise<boolean>;
+  abstract findByApiKey(apiKey: string): Promise<User>;
 }
