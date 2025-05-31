@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { TimeLogService } from './time-log.service';
 import { TimeLogDto } from './dto/time-log.dto';
 import { UUIDValidationPipe } from '../../pipes/uuid-validation.pipe';
@@ -13,8 +13,6 @@ export class TimeLogController {
     @ApiKey(UUIDValidationPipe) apiKey: string,
     @Body() logs: TimeLogDto[],
   ): Promise<{ message: string }> {
-    if (!apiKey) throw new BadRequestException('Missing API key in headers');
-
     await this.timeLogService.saveLogs(apiKey, logs);
     return { message: 'Logs were saved successfully' };
   }
