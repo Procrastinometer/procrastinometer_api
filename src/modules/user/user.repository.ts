@@ -35,4 +35,8 @@ export class UserRepository implements AbstractionUserRepository {
     });
     return !!user;
   }
+  
+  async findByApiKey (apiKey: string): Promise<User | null> {
+    return this.prisma.user.findUnique({ where: { apiKey } });
+  }
 }

@@ -6,4 +6,5 @@ export abstract class AbstractionUserRepository {
   abstract create(email: string, password: string, apiKey: string): Promise<User>;
   abstract updateApiKey(id: string, apiKey: string): Promise<User>;
   abstract existsByApiKey(apiKey: string): Promise<boolean>;
+  abstract findByApiKey(apiKey: string): Promise<User | null>;
 }
