@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AbstractTimeLogRepository } from './abstractions/time-log-repository.abstraction';
 import { TimeLogDto } from './dto/time-log.dto';
 import { AbstractUserService } from '../user/abstractions/user-service.abstraction';
+import { getStartAndEndOfDay } from '../../utils/date/date.utils';
 
 @Injectable()
 export class TimeLogService {
@@ -38,6 +39,14 @@ export class TimeLogService {
     }
 
     return result;
+  }
+
+  async getTotalTimeByDay (apiKey: string): Promise<number> {
+    const { start, end } = getStartAndEndOfDay();
+    const user = await this.userService.findByApiKey(apiKey);
+    const durations = await this.timeLogRepository.getDurationByDate(user.id, start, end);
+
+    return durations.reduce((total, duration) => total + duration, 0);
   }
 
   private isSameContext (firstLog: TimeLogDto, secondLog: TimeLogDto): boolean {

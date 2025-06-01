@@ -16,4 +16,12 @@ export class TimeLogController {
     await this.timeLogService.saveLogs(apiKey, logs);
     return { message: 'Logs were saved successfully' };
   }
+
+  @Post('get-total-time')
+  async getTotalTimeByDay (
+    @ApiKey(UUIDValidationPipe) apiKey: string,
+  ): Promise<{ totalTime: number }> {
+    const totalTime = await this.timeLogService.getTotalTimeByDay(apiKey);
+    return { totalTime };
+  }
 }

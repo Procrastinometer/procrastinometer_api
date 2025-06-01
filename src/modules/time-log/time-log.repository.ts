@@ -18,4 +18,19 @@ export class TimeLogRepository implements AbstractTimeLogRepository {
       skipDuplicates: true,
     });
   }
+
+  async getDurationByDate (userId: string, start: Date, end: Date): Promise<number[]> {
+    const logs = await this.prisma.timeLog.findMany({
+      where: {
+        userId,
+        startTime: {
+          gte: start,
+          lte: end,
+        },
+      },
+      select: { duration: true },
+    });
+
+    return logs.map((log) => log.duration);
+  }
 }
