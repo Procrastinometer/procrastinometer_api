@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import { Request } from 'express';
-import { CONSTANTS } from './constants';
+import { DATE_CONSTANTS } from './date/date-constants';
 
 export const setRefreshTokenCookie = (res: Response, token: string): void => {
   const isProduction = process.env.NODE_ENV === 'production';
@@ -10,7 +10,7 @@ export const setRefreshTokenCookie = (res: Response, token: string): void => {
     secure: isProduction,
     sameSite: isProduction ? 'strict' : 'lax',
     path: '/auth/refresh',
-    maxAge: CONSTANTS.ONE_WEEK_MS,
+    maxAge: DATE_CONSTANTS.ONE_WEEK_MS,
   });
 };
 

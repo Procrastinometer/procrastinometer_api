@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { AbstractSessionService } from './abstractions/session-service.abstraction';
 import { AbstractSessionRepository } from './abstractions/session-repository.abstraction';
 import { generateRefreshToken, hashToken } from '../../utils/cryptography';
-import { CONSTANTS } from '../../utils/constants';
+import { DATE_CONSTANTS } from '../../utils/date/date-constants';
 
 @Injectable()
 export class SessionService implements AbstractSessionService {
@@ -14,7 +14,7 @@ export class SessionService implements AbstractSessionService {
     const rawToken = generateRefreshToken();
     const hashedToken = hashToken(rawToken);
 
-    const expiresAt = new Date(Date.now() + CONSTANTS.ONE_WEEK_MS);
+    const expiresAt = new Date(Date.now() + DATE_CONSTANTS.ONE_WEEK_MS);
     await this.sessionRepository.create(userId, hashedToken, expiresAt);
 
     return rawToken;
