@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { TimeLogService } from './time-log.service';
 import { TimeLogDto } from './dto/time-log.dto';
 import { UUIDValidationPipe } from '../../pipes/uuid-validation.pipe';
@@ -15,5 +15,13 @@ export class TimeLogController {
   ): Promise<{ message: string }> {
     await this.timeLogService.saveLogs(apiKey, logs);
     return { message: 'Logs were saved successfully' };
+  }
+
+  @Get('get-total-time')
+  async getTotalTimeByDay (
+    @ApiKey(UUIDValidationPipe) apiKey: string,
+  ): Promise<{ totalTime: number }> {
+    const totalTime = await this.timeLogService.getTotalTimeByDay(apiKey);
+    return { totalTime };
   }
 }
